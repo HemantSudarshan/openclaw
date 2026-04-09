@@ -370,7 +370,7 @@ export async function collectSecurityPermissionTargets(params: {
     const storePath = path.join(sessionsDir, "sessions.json");
     targets.push({ path: storePath, mode: 0o600, require: "file" });
 
-    // Fix permissions on session transcript files (*.jsonl)
+    // Apply permissions on session transcript files (*.jsonl)
     const sessionEntries = await fs.readdir(sessionsDir, { withFileTypes: true }).catch(() => []);
     for (const entry of sessionEntries) {
       if (!entry.isFile()) {
