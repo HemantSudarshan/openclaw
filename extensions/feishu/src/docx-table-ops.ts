@@ -204,7 +204,7 @@ export function cleanBlocksForDescendant(blocks: FeishuDocxBlock[]): FeishuDocxB
   return blocks.map((block) => {
     const cleanBlock = omitParentId(block);
 
-    // Fix: Convert API sometimes returns children as string for TableCell
+    // Workaround: Convert API sometimes returns children as string for TableCell
     if (cleanBlock.block_type === 32 && typeof cleanBlock.children === "string") {
       cleanBlock.children = [cleanBlock.children];
     }
