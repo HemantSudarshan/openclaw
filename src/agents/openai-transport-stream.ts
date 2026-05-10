@@ -57,6 +57,8 @@ import { stripSystemPromptCacheBoundary } from "./system-prompt-cache-boundary.j
 import { transformTransportMessages } from "./transport-message-transform.js";
 import { mergeTransportMetadata, sanitizeTransportPayloadText } from "./transport-stream-shared.js";
 
+type ChatCompletionChoiceDelta = NonNullable<ChatCompletionChunk["choices"][number]["delta"]>;
+
 const DEFAULT_AZURE_OPENAI_API_VERSION = "2024-12-01-preview";
 const OPENAI_CODEX_RESPONSES_EMPTY_INPUT_TEXT = " ";
 const GEMINI_THOUGHT_SIGNATURE_VALIDATOR_SKIP = "skip_thought_signature_validator";
@@ -1520,8 +1522,7 @@ async function processOpenAICompletionsStream(
       }
     }
     const choiceDelta =
-      choice.delta ??
-      (choice as unknown as { message?: ChatCompletionChunk["choices"][number]["delta"] }).message;
+      choice.delta ?? (choice as unknown as { message?: ChatCompletionChoiceDelta }).message;
     if (!choiceDelta) {
       continue;
     }
