@@ -28,6 +28,7 @@ import type { ChatInputHistoryKeyInput, ChatInputHistoryKeyResult } from "../cha
 import { PinnedMessages } from "../chat/pinned-messages.ts";
 import { getPinnedMessageSummary } from "../chat/pinned-summary.ts";
 import type { RealtimeTalkStatus } from "../chat/realtime-talk.ts";
+import { generateUUID } from "../uuid.ts";
 import { renderChatRunControls } from "../chat/run-controls.ts";
 import { getOrCreateSessionCacheValue } from "../chat/session-cache.ts";
 import { renderSideResult } from "../chat/side-result-render.ts";
@@ -207,7 +208,7 @@ function restoreHistoryCaret(target: HTMLTextAreaElement, direction: "up" | "dow
 }
 
 function generateAttachmentId(): string {
-  return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return `att-${Date.now()}-${generateUUID().split('-')[0]}`;
 }
 
 function chatAttachmentFromFile(file: File, dataUrl: string): ChatAttachment {
