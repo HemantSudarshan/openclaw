@@ -593,7 +593,7 @@ function withTelegramUserAgent(
   input: RequestInfo | URL,
   init?: RequestInit,
 ): RequestInitWithDispatcher {
-  const nextInit = { ...(init ?? {}) } as RequestInitWithDispatcher;
+  const nextInit = { ...init } as RequestInitWithDispatcher;
   const headers = new Headers(init?.headers ?? headersFromRequestInput(input));
   if (!headers.has("User-Agent")) {
     headers.set("User-Agent", TELEGRAM_BOT_USER_AGENT);
