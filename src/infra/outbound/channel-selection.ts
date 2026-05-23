@@ -351,10 +351,13 @@ export async function resolveMessageAccountSelection(params: {
   cfg: OpenClawConfig;
   channel: MessageChannelId;
   accountId?: string | null;
-}): Promise<{
-  accountId: string;
-  source: MessageAccountSelectionSource;
-}> {
+}): Promise<
+  | {
+      accountId: string;
+      source: MessageAccountSelectionSource;
+    }
+  | undefined
+> {
   const explicitAccountId = normalizeAccountId(params.accountId);
   if (explicitAccountId) {
     return { accountId: explicitAccountId, source: "explicit" };
@@ -372,6 +375,9 @@ export async function resolveMessageAccountSelection(params: {
   const accountIds: string[] = [];
   for (const accountId of plugin.config.listAccountIds(params.cfg)) {
     pushUniqueAccountId(accountIds, accountId);
+  }
+  if (accountIds.length === 0) {
+    return undefined;
   }
 
   const defaultAccountId =

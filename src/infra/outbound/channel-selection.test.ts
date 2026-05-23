@@ -237,6 +237,22 @@ describe("resolveMessageAccountSelection", () => {
     });
   });
 
+  it("does not infer an account for accountless plugins", async () => {
+    mocks.resolveOutboundChannelPlugin.mockReturnValue(
+      makePlugin({
+        id: "testchat",
+        accountIds: [],
+      }),
+    );
+
+    await expect(
+      resolveMessageAccountSelection({
+        cfg: {} as never,
+        channel: "testchat",
+      }),
+    ).resolves.toBeUndefined();
+  });
+
   it("selects the only enabled configured account when the default account is disabled", async () => {
     mocks.resolveOutboundChannelPlugin.mockReturnValue(
       makePlugin({

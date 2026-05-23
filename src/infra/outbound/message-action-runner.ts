@@ -1288,7 +1288,7 @@ export async function runMessageAction(
         cfg,
         channel,
       })
-    ).accountId;
+    )?.accountId;
   }
   if (accountId) {
     params.accountId = accountId;
