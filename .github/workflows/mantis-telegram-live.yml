@@ -508,6 +508,7 @@ jobs:
         id: mantis_app_token
         if: ${{ always() && needs.resolve_request.outputs.pr_number != '' }}
         uses: actions/create-github-app-token@v3
+        continue-on-error: true
         with:
           client-id: ${{ secrets.MANTIS_GITHUB_APP_ID }}
           private-key: ${{ secrets.MANTIS_GITHUB_APP_PRIVATE_KEY }}
