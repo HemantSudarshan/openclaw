@@ -56,6 +56,7 @@ import { detectTextDirection } from "../text-direction.ts";
 import type { SessionsListResult } from "../types.ts";
 import type { ChatAttachment, ChatQueueItem } from "../ui-types.ts";
 import { resolveLocalUserName } from "../user-identity.ts";
+import { generateUUID } from "../uuid.ts";
 import { renderMarkdownSidebar } from "./markdown-sidebar.ts";
 import "../components/resizable-divider.ts";
 
@@ -451,7 +452,7 @@ function restoreHistoryCaret(target: HTMLTextAreaElement, direction: "up" | "dow
 }
 
 function generateAttachmentId(): string {
-  return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return `att-${Date.now()}-${generateUUID()}`;
 }
 
 function chatAttachmentFromFile(file: File, dataUrl: string): ChatAttachment {
