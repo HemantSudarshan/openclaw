@@ -35,6 +35,7 @@ import type { ChatRunUiStatus } from "../chat/run-lifecycle.ts";
 import { getOrCreateSessionCacheValue } from "../chat/session-cache.ts";
 import { renderSideResult } from "../chat/side-result-render.ts";
 import type { ChatSideResult } from "../chat/side-result.ts";
+import { generateUUID } from "../uuid.ts";
 import {
   CATEGORY_LABELS,
   SLASH_COMMANDS,
@@ -451,7 +452,7 @@ function restoreHistoryCaret(target: HTMLTextAreaElement, direction: "up" | "dow
 }
 
 function generateAttachmentId(): string {
-  return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return `att-${Date.now()}-${generateUUID().split("-")[0]}`;
 }
 
 function chatAttachmentFromFile(file: File, dataUrl: string): ChatAttachment {
