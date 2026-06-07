@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { computeBackoff, sleepWithAbort, type BackoffPolicy } from "./backoff.js";
+import * as secureRandom from "./secure-random.js";
 
 async function expectAbortedSleep(promise: Promise<void>): Promise<Error> {
   try {
@@ -20,7 +21,7 @@ describe("backoff helpers", () => {
   };
 
   it("treats attempts below one as the first backoff step", () => {
-    const randomSpy = vi.spyOn(Math, "random").mockReturnValue(0);
+    const randomSpy = vi.spyOn(secureRandom, "generateSecureFraction").mockReturnValue(0);
     try {
       expect(computeBackoff(policy, 0)).toBe(100);
       expect(computeBackoff(policy, 1)).toBe(100);
@@ -30,7 +31,7 @@ describe("backoff helpers", () => {
   });
 
   it("adds jitter and clamps to maxMs", () => {
-    const randomSpy = vi.spyOn(Math, "random").mockReturnValue(1);
+    const randomSpy = vi.spyOn(secureRandom, "generateSecureFraction").mockReturnValue(1);
     try {
       expect(computeBackoff(policy, 2)).toBe(250);
       expect(computeBackoff({ ...policy, maxMs: 450 }, 2)).toBe(300);
