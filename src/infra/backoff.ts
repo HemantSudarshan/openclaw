@@ -1,3 +1,5 @@
+import { generateSecureFraction } from "./secure-random.js";
+
 export type BackoffPolicy = {
   initialMs: number;
   maxMs: number;
@@ -7,7 +9,7 @@ export type BackoffPolicy = {
 
 export function computeBackoff(policy: BackoffPolicy, attempt: number) {
   const base = policy.initialMs * policy.factor ** Math.max(attempt - 1, 0);
-  const jitter = base * policy.jitter * Math.random();
+  const jitter = base * policy.jitter * generateSecureFraction();
   return Math.min(policy.maxMs, Math.round(base + jitter));
 }
 

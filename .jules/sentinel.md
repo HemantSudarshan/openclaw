@@ -1,0 +1,4 @@
+## 2024-06-07 - [MEDIUM] Fix weak random number generation
+**Vulnerability:** Weak random number generation (`Math.random()`) was being used for important identifiers (UI attachments) and exponential backoff jitter in infrastructure code. This is cryptographically insecure and could result in predictable sequences or identifiers.
+**Learning:** `Math.random()` shouldn't be used for anything beyond non-security cosmetic UI features. The codebase has specific alternatives: `generateUUID()` in `ui/src/ui/uuid.ts` and `generateSecureFraction()` in `src/infra/secure-random.ts`.
+**Prevention:** Developers should be educated to use the internal helper functions instead of standard `Math.random` whenever unique values or randomization are required for ids or backoffs. Ensure linters check against `Math.random()` use outside test files or explicit UI cosmetics.
