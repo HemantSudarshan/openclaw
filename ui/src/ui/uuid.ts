@@ -42,3 +42,12 @@ export function generateUUID(cryptoLike: CryptoLike | null = globalThis.crypto):
   warnWeakCryptoOnce();
   throw new Error("Web Crypto is required for UUID generation");
 }
+export function generateSecureFraction(cryptoLike: CryptoLike | null = globalThis.crypto): number {
+  if (cryptoLike && typeof cryptoLike.getRandomValues === 'function') {
+    const randomArray = new Uint32Array(1);
+    cryptoLike.getRandomValues(randomArray);
+    return randomArray[0]! / (0xffffffff + 1);
+  }
+  warnWeakCryptoOnce();
+  throw new Error('Web Crypto is required for secure fraction generation');
+}

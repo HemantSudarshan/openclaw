@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { t } from "../../i18n/index.ts";
+import { generateSecureFraction } from "../uuid.ts";
 import type {
   DreamingEntry,
   WikiImportInsights,
@@ -173,7 +174,13 @@ const DREAM_PHASE_LABEL_KEYS = {
   rem: "dreaming.phase.rem",
 } as const;
 
-let dreamIndex = Math.floor(Math.random() * DREAM_PHRASE_KEYS.length);
+let dreamIndex = 0;
+try {
+  dreamIndex = Math.floor(generateSecureFraction() * DREAM_PHRASE_KEYS.length);
+} catch {
+  // If crypto is unavailable at top-level before polyfill, fallback safely without error
+  dreamIndex = Math.floor(Math.random() * DREAM_PHRASE_KEYS.length);
+}
 let dreamLastSwap = 0;
 const DREAM_SWAP_MS = 6_000;
 
