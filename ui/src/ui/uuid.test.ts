@@ -46,12 +46,14 @@ describe("generateSecureFraction", () => {
       getRandomValues: (arr) => {
         arr[0] = 0x80000000;
         return arr;
-      }
+      },
     });
     expect(fraction).toBeCloseTo(0.5, 5);
   });
 
   it("throws when crypto is unavailable", () => {
-    expect(() => generateSecureFraction(null)).toThrow("Web Crypto is required for secure fraction generation");
+    expect(() => generateSecureFraction(null)).toThrow(
+      "Web Crypto is required for secure fraction generation",
+    );
   });
 });

@@ -1,7 +1,6 @@
 import { html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { t } from "../../i18n/index.ts";
-import { generateSecureFraction } from "../uuid.ts";
 import type {
   DreamingEntry,
   WikiImportInsights,
@@ -9,6 +8,7 @@ import type {
   WikiMemoryPalaceItem,
 } from "../controllers/dreaming.ts";
 import { toSanitizedMarkdownHtml } from "../markdown.ts";
+import { generateSecureFraction } from "../uuid.ts";
 
 // ── Diary entry parser ─────────────────────────────────────────────────
 
