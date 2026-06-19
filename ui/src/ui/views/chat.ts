@@ -3,6 +3,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
 import { t } from "../../i18n/index.ts";
+import { generateUUID } from "../uuid.ts";
 import type { CompactionStatus, FallbackStatus } from "../app-tool-stream.ts";
 import {
   getChatAttachmentPreviewUrl,
@@ -451,7 +452,7 @@ function restoreHistoryCaret(target: HTMLTextAreaElement, direction: "up" | "dow
 }
 
 function generateAttachmentId(): string {
-  return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return `att-${generateUUID()}`;
 }
 
 function chatAttachmentFromFile(file: File, dataUrl: string): ChatAttachment {
