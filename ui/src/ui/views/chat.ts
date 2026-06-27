@@ -56,8 +56,9 @@ import { detectTextDirection } from "../text-direction.ts";
 import type { SessionsListResult } from "../types.ts";
 import type { ChatAttachment, ChatQueueItem } from "../ui-types.ts";
 import { resolveLocalUserName } from "../user-identity.ts";
-import { renderMarkdownSidebar } from "./markdown-sidebar.ts";
+import { generateUUID } from "../uuid.ts";
 import "../components/resizable-divider.ts";
+import { renderMarkdownSidebar } from "./markdown-sidebar.ts";
 
 const COMPOSER_CHROME_INTERACTIVE_SELECTOR = [
   "a[href]",
@@ -451,7 +452,11 @@ function restoreHistoryCaret(target: HTMLTextAreaElement, direction: "up" | "dow
 }
 
 function generateAttachmentId(): string {
-  return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  try {
+    return `att-${Date.now()}-${generateUUID()}`;
+  } catch {
+    return `att-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  }
 }
 
 function chatAttachmentFromFile(file: File, dataUrl: string): ChatAttachment {
