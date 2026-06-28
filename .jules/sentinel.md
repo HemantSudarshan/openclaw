@@ -1,4 +1,4 @@
-## 2024-05-18 - [Replaced Weak Randomness with Secure UUID]
-**Vulnerability:** Weak random number generation (`Math.random()`) used for generating attachment IDs.
-**Learning:** `Math.random()` shouldn't be used to generate secure IDs because it's predictable. Found that `Math.random()` is used multiple times throughout the project. The codebase provides a secure `generateUUID` utility located at `ui/src/ui/uuid.ts` which provides secure IDs without breaking SSR. It's best to always use `generateUUID` instead of `Math.random()` for identifier generation.
-**Prevention:** Use secure `generateUUID` for UI components or backend cryptography equivalents for backend identifier generation.
+## 2024-05-18 - [Fix GitHub App Token Fallbacks in CI]
+**Vulnerability:** CI workflows crashed when running from contexts without repository secrets (e.g. forks) due to unhandled empty `private-key` arguments passed to `actions/create-github-app-token`.
+**Learning:** `actions/create-github-app-token@v3` fails loudly if `private-key` is an empty string. To prevent this, workflow steps that use secrets for app authentication must wrap their execution in a conditional `if: ${{ secrets.SOME_SECRET != '' }}` check. Additionally, `app-id` is still the correct required input; earlier warnings about using `client-id` were misleading or unrelated.
+**Prevention:** Always add conditional checks for missing secrets in reusable actions or workflows designed to run on PRs. Ensure that fallback steps correctly handle the `skipped` outcome of the primary steps as well.
