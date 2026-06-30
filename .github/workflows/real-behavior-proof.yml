@@ -29,6 +29,7 @@ jobs:
       - uses: actions/create-github-app-token@v3
         id: app-token
         continue-on-error: true
+        if: ${{ secrets.GH_APP_PRIVATE_KEY != '' }}
         with:
           app-id: "2729701"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
