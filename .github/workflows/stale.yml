@@ -46,12 +46,18 @@ jobs:
     steps:
       - uses: actions/create-github-app-token@v3
         id: app-token
+        env:
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        if: ${{ env.GH_APP_PRIVATE_KEY != '' }}
         continue-on-error: true
         with:
           app-id: "2729701"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - uses: actions/create-github-app-token@v3
         id: app-token-fallback
+        env:
+          GH_APP_PRIVATE_KEY_FALLBACK: ${{ secrets.GH_APP_PRIVATE_KEY_FALLBACK }}
+        if: ${{ (steps.app-token.outcome == 'failure' || steps.app-token.outcome == 'skipped') && env.GH_APP_PRIVATE_KEY_FALLBACK != '' }}
         continue-on-error: true
         with:
           app-id: "2971289"
@@ -249,6 +255,9 @@ jobs:
     steps:
       - uses: actions/create-github-app-token@v3
         id: app-token
+        env:
+          GH_APP_PRIVATE_KEY_FALLBACK: ${{ secrets.GH_APP_PRIVATE_KEY_FALLBACK }}
+        if: ${{ env.GH_APP_PRIVATE_KEY_FALLBACK != '' }}
         with:
           app-id: "2971289"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY_FALLBACK }}
@@ -493,6 +502,9 @@ jobs:
     steps:
       - uses: actions/create-github-app-token@v3
         id: app-token
+        env:
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        if: ${{ env.GH_APP_PRIVATE_KEY != '' }}
         with:
           app-id: "2729701"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
