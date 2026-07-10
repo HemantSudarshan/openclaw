@@ -28,6 +28,7 @@ jobs:
           persist-credentials: false
       - uses: actions/create-github-app-token@v3
         id: app-token
+        if: ${{ secrets.GH_APP_PRIVATE_KEY != '' }}
         continue-on-error: true
         with:
           app-id: "2729701"
@@ -36,7 +37,7 @@ jobs:
           permission-members: read
       - uses: actions/create-github-app-token@v3
         id: app-token-fallback
-        if: steps.app-token.outcome == 'failure'
+        if: ${{ secrets.GH_APP_PRIVATE_KEY_FALLBACK != '' && (steps.app-token.outcome == 'failure' || steps.app-token.outcome == 'skipped') }}
         continue-on-error: true
         with:
           app-id: "2971289"
