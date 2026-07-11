@@ -46,7 +46,6 @@ jobs:
     steps:
       - uses: actions/create-github-app-token@v3
         id: app-token
-        if: ${{ secrets.GH_APP_PRIVATE_KEY != '' }}
         continue-on-error: true
         with:
           app-id: "2729701"
