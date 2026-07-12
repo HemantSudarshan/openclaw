@@ -52,6 +52,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - uses: actions/create-github-app-token@v3
         id: app-token-fallback
+        if: (steps.app-token.outcome == 'failure' || steps.app-token.outcome == 'skipped')
         continue-on-error: true
         with:
           app-id: "2971289"
