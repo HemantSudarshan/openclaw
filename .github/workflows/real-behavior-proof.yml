@@ -36,7 +36,7 @@ jobs:
           permission-members: read
       - uses: actions/create-github-app-token@v3
         id: app-token-fallback
-        if: (steps.app-token.outcome == 'failure' || steps.app-token.outcome == 'skipped')
+        if: steps.app-token.outcome == 'failure'
         continue-on-error: true
         with:
           app-id: "2971289"
